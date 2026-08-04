@@ -18,18 +18,16 @@ struct ClipboardHistoryView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
+            HStack(spacing: 12) {
                 Text("Clipboard")
                     .font(.headline)
                     .foregroundColor(.primary)
                 Spacer()
                 
+                // Hotkey Config Menu Picker
                 Menu {
-                    // --- Added Launch At Login Toggle Link ---
                     Toggle("Launch at Login", isOn: $launchManager.isEnabled)
-                    
                     Divider()
-                    
                     Button("Option + V (Default)") { updateHotkey(code: 9, mod: optionKey) }
                     Button("Option + C") { updateHotkey(code: 8, mod: optionKey) }
                     Button("Option + Space") { updateHotkey(code: 49, mod: optionKey) }
@@ -43,6 +41,7 @@ struct ClipboardHistoryView: View {
                         .cornerRadius(4)
                 }
                 
+                //Clear History Button
                 Button(action: { monitor.history.removeAll() }) {
                     Image(systemName: "trash")
                         .font(.body)
@@ -50,6 +49,17 @@ struct ClipboardHistoryView: View {
                 }
                 .buttonStyle(PlainButtonStyle())
                 .help("Clear History")
+                
+                // Improvement #1 Close Icon Button
+                Button(action: {
+                    windowManager.togglePanel()
+                }) {
+                    Image(systemName: "xmark.circle")
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .help("Close Menu")
             }
             .padding()
             .background(VisualEffectView(material: .headerView, blendingMode: .withinWindow))
@@ -72,6 +82,7 @@ struct ClipboardHistoryView: View {
                         ForEach(monitor.history) { item in
                             ClipboardRow(item: item) {
                                 monitor.pasteItem(item)
+                                monitor.moveToTop(item)
                                 windowManager.togglePanel()
                             }
                         }

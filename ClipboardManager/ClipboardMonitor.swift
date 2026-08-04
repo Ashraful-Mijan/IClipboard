@@ -29,13 +29,14 @@ class ClipboardMonitor: ObservableObject {
     private let pasteboard = NSPasteboard.general
     private var lastChangeCount = NSPasteboard.general.changeCount
     private var timer: Timer?
+    
+    private var isInternalChange = false
 
     init() {
         startMonitoring()
     }
 
     func startMonitoring() {
-        // High frequency loop to securely grab text/file data without impacting system speed
         timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
             self?.checkPasteboard()
         }
@@ -44,6 +45,12 @@ class ClipboardMonitor: ObservableObject {
     private func checkPasteboard() {
         guard pasteboard.changeCount != lastChangeCount else { return }
         lastChangeCount = pasteboard.changeCount
+        
+        // new
+        if isInternalChange {
+            isInternalChange = false
+            return
+        }
 
         var text: String?
         var image: NSImage?
@@ -60,6 +67,13 @@ class ClipboardMonitor: ObservableObject {
         else if let str = pasteboard.string(forType: .string) {
             text = str
         }
+        
+        // new #avoid adding the exact same content
+        if let firstItem = history.first {
+            if firstItem.text == text && firstItem.image == image && firstItem.fileURLs == fileURLs {
+                return
+            }
+        }
 
         let newItem = ClipboardItem(timestamp: Date(), text: text, image: image, fileURLs: fileURLs)
         
@@ -70,6 +84,8 @@ class ClipboardMonitor: ObservableObject {
     }
     
     func pasteItem(_ item: ClipboardItem) {
+        //new
+        isInternalChange = true
         pasteboard.clearContents()
         if let text = item.text {
             pasteboard.setString(text, forType: .string)
@@ -77,6 +93,17 @@ class ClipboardMonitor: ObservableObject {
             pasteboard.writeObjects([image])
         } else if let urls = item.fileURLs {
             pasteboard.writeObjects(urls as [NSURL])
+        }
+    }
+    
+    func moveToTop(_ item: ClipboardItem) {
+        DispatchQueue.main.async {
+            if let index = self.history.firstIndex(of: item) {
+                self.history.remove(at: index)
+                // Create a fresh item with an updated timestamp to reflect the new selection time
+                let movedItem = ClipboardItem(timestamp: Date(), text: item.text, image: item.image, fileURLs: item.fileURLs)
+                self.history.insert(movedItem, at: 0)
+            }
         }
     }
 }
