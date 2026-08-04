@@ -51,6 +51,7 @@ class WindowManager: ObservableObject {
                 styleMask: [.borderless, .nonactivatingPanel],
                 backing: .buffered, defer: false
             )
+            newPanel.styleMask.insert(.hudWindow) //gives it a clean window focus footprint #write this line to hide console error
             newPanel.level = .statusBar
             newPanel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
             newPanel.backgroundColor = .clear
