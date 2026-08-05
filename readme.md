@@ -36,17 +36,22 @@ A lightweight and fast native macOS clipboard manager built with Swift.
 1. Download **ClipboardManager.dmg** from the Releases page.
 2. Open the DMG.
 3. Drag **ClipboardManager.app** into the Applications folder.
-4. Launch the app.
 
-### First Launch
+Since this application is not signed with an Apple Developer certificate, macOS may display a warning. don't be scared with that. just follow this simple procedure below:
+- Go to system settings
+- Select **Privacy & Security** 
+    as like red marking of the pictures:
+![Security-Permission](Screenshots/security-permission.png)
+![Confirm-Security-Permission](Screenshots/confirm-security-permission.png)
 
-Since this application is not signed with an Apple Developer certificate, macOS may display a warning.
-
-To open it:
-
+To start it:
 - Right-click the application.
 - Click **Open**.
-- Click **Open** again.
+or
+**Double Click** over the application icon from:
+- Finder Application
+- Launch pad
+or just search in spotlight and press Enter
 
 After the first launch, the warning will not appear again.
 
