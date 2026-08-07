@@ -1,4 +1,4 @@
-# ClipboardManager
+# iClipboard Manager
 
 A lightweight and fast native macOS clipboard manager built with Swift.
 
@@ -7,7 +7,6 @@ A lightweight and fast native macOS clipboard manager built with Swift.
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Features
-- 📋 Open the window where cursor point exactly
 - 📋 Automatically saves clipboard history
 - 🔍 Quickly search copied items - (will be added in next version)
 - ⚡ Lightweight and fast
@@ -33,9 +32,9 @@ A lightweight and fast native macOS clipboard manager built with Swift.
 
 ## Installation
 
-1. Download **ClipboardManager.dmg** from the Releases page.
+1. Download **iclipboard.dmg** from the Releases page.
 2. Open the DMG.
-3. Drag **ClipboardManager.app** into the Applications folder.
+3. Drag **iClipboard** into the Applications folder.
 
 Since this application is not signed with an Apple Developer certificate, macOS may display a warning. don't be scared with that. just follow this simple procedure below:
 - Go to system settings
@@ -46,14 +45,19 @@ Since this application is not signed with an Apple Developer certificate, macOS 
 
 To start it:
 - Right-click the application.
-- Click **Open**.
+- Click **Open**
+
 or
+<br/>
+
 **Double Click** over the application icon from:
 - Finder Application
 - Launch pad
-or just search in spotlight and press Enter
 
-After the first launch, the warning will not appear again.
+or <br/> 
+- just search in spotlight and press Enter
+
+- After the first launch, the warning will not appear again.
 
 ### How To Use
 after launch the tool from Launch pad press OptionKey + V
